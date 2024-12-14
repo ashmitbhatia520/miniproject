@@ -1,0 +1,193 @@
+<html>
+ <head>
+  <title>
+   Monolith Studio
+  </title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #e0e0e0;
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 14px;
+        }
+        .header span {
+            margin-right: 20px;
+        }
+        .nav {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 14px;
+        }
+        .nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #333;
+        }
+        .title {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 120px;
+            font-weight: bold;
+            letter-spacing: -5px;
+        }
+        .car {
+            position: absolute;
+            top: 35%;
+            left: 70%;
+            transform: translate(-50%, -30%);
+            width: 50%;
+            max-width: 600px;
+            height: auto;
+        }
+        .plate {
+            position: absolute;
+            top: 6%;
+            left: 24%;
+            transform: translate(-50%, -30%);
+            width: 50%;
+            max-width: 245px;
+            height: auto;
+            transform: rotate(-30deg);
+        }
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 14px;
+        }
+        .button {
+            position: absolute;
+            top:85%;
+            left: 48%;
+            background-color:#0a0a23;
+            color: #fff;
+            border:none; 
+            border-radius:10px; 
+            padding:15px;
+            min-height:30px; 
+            min-width: 120px;
+        }
+        #imageInput {
+            position: absolute;
+            top:75%;
+            letter-spacing: 2px;
+            left: 41%;
+            background-color:#2d350c;
+            color: #fff;
+            border:none; 
+            border-radius:10px; 
+            padding:15px;
+            min-height:30px; 
+            min-width: 100px;
+        }
+    
+        .button:active {
+            background-color: #ffbf00;
+        }
+        .input[type="file"]{
+            display: none;
+        }
+        .label{
+            display: inline-block;
+            text-transform: capitalize;
+            color: burlywood;
+            text-align: center;
+        }
+        .scroll {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 14px;
+        }
+  </style>
+
+  <script src='https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js'></script>
+
+ </head>
+
+ <body>
+
+    <div class="container">
+        <div class="header">
+         <span>PREVERSE</span>
+        </div>
+
+    <div class="nav">
+        <a href="#"> ABOUT<i class="fas fa-arrow-right"></i></a>
+    </div>
+
+   <div class="title">LICENSE PLATE DETECTION</div>
+
+   <img alt="A side view of a beige colored car without background" class="car" height="400" src="assets\sedan-parked-deserted-area-cloudy-sky.png" width="600"/>
+
+   <img alt="License plate" class="plate" height="400" src="assets\7403011.png" width="600"/>
+
+    <div class="footer">
+      <br/>
+      GL BAJAJ INSTITUTE
+      <br/>
+      OF TECHNOLOGY, IND
+    </div>
+
+     <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" id="imageInput">
+        <div>
+           <button class = "button" id="button">Submit</button>
+        </div>
+     </form>
+
+     <textarea id="textarea"></textarea>
+
+     <div class="scroll">A.A.H.G</div>
+
+  </div>
+
+        <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+        <script>
+            let imageInput = document.getElementById('imageInput')
+            let button = document.getElementById('button')
+            let text = document.getElementById('textarea')
+            
+            button.addEventListener('click', () => {
+                const file = imageInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        const img = new Image();
+                        img.src = reader.result;
+                        img.onload = () => {
+                            Tesseract.recognize(img)
+                                .then(({ data: { text } }) => {
+                                    textarea.value = text;
+                                })
+                                .catch((error) => {
+                                    console.error('Error:', error);
+                                });
+                        };
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+        </script>
+
+    </body>
+
+</html>
